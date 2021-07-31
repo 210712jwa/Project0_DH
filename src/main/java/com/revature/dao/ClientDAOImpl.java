@@ -51,7 +51,7 @@ public class ClientDAOImpl implements ClientDAO {
 				int client_id = rs.getInt("id");
 				String name = rs.getString("name");
 
-				Client client = new Client(id, name);
+				Client client = new Client(client_id, name);
 				return client;
 			} else {
 				return null;	// if no client, return null
