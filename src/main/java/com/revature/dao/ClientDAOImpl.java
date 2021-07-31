@@ -43,10 +43,10 @@ public class ClientDAOImpl implements ClientDAO {
 	public Client getClientById(int id) throws SQLException {
 		try (Connection con = ConnectionUtility.getConnection()) {
 			String sql = "SELECT * FROM Project0.client WHERE id = ?";
-			PreparedStatement pstmt = con.prepareStatement("sql");
+			PreparedStatement pstmt = con.prepareStatement(sql);
 
-			pstmt.setInt(1, id);
-			ResultSet rs = pstmt.executeQuery(sql);
+			pstmt.setInt(1 , id);
+			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				int client_id = rs.getInt("id");
 				String name = rs.getString("name");
@@ -82,5 +82,6 @@ public class ClientDAOImpl implements ClientDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

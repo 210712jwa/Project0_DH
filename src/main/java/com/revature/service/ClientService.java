@@ -29,6 +29,8 @@ public class ClientService {
 	
 	public Client getClientById(int id) throws DatabaseException, ClientNotFoundException {
 		try {
+		
+			
 			Client client = clientDao.getClientById(id);
 			
 			if(client == null) {
@@ -40,4 +42,5 @@ public class ClientService {
 			throw new DatabaseException("Something went wrong with DAO operation");
 		}
 	}
+	
 }

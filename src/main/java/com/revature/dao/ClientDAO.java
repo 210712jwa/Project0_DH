@@ -40,6 +40,7 @@ public interface ClientDAO {
 		
 		public abstract Client addAccount(Client client) throws SQLException;
 		public abstract Client editAccount(Client client) throws SQLException;
+
 		
 		
 		

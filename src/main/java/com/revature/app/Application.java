@@ -46,6 +46,7 @@ public class Application {
 
 		try {
 			Client client = clientService.getClientById(2);
+			System.out.println(client);
 		} catch (DatabaseException e) {
 			System.out.println(" Something went wrong with interacting with database: error 500");
 			e.printStackTrace();
