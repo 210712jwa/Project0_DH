@@ -37,7 +37,7 @@ public interface ClientDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public abstract Client editClient(int id, AddOrEditClientDTO client) throws SQLException;
+	public abstract Client editClient(int clientId, AddOrEditClientDTO client) throws SQLException;
 
 	/**
 	 * This method edits a client info in the database
@@ -47,6 +47,10 @@ public interface ClientDAO {
 	 * @throws SQLException
 	 */
 
+	public abstract void deleteClient(int cliendId)  throws SQLException;
+	/**
+	 * This method deletes clients from database
+	 */
 
 
 }

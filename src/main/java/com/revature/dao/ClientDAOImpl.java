@@ -89,17 +89,14 @@ public class ClientDAOImpl implements ClientDAO {
 //		}
 //	}
 
-
-
 	@Override
 	public Client addClient(AddOrEditClientDTO name) throws SQLException {
-		
+
 		try (Connection con = ConnectionUtility.getConnection()) {
 			String sql = "INSERT INTO Project0.client (name) VALUES (?)";
 
 			PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-			
 			pstmt.setString(1, name.getName());
 
 			int recordsUpdated = pstmt.executeUpdate();
@@ -119,29 +116,40 @@ public class ClientDAOImpl implements ClientDAO {
 			}
 		}
 	}
-	
+
 	@Override
 	public Client editClient(int clientdId, AddOrEditClientDTO client) throws SQLException {
 		try (Connection con = ConnectionUtility.getConnection()) {
 			String sql = "UPDATE Project0.client SET name = ? WHERE id = ?";
-			
-			PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
-			
+
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
 			pstmt.setString(1, client.getName());
 			pstmt.setInt(2, clientdId);
-			
-			
-			
-			int recordUpdate = pstmt.executeUpdate();	// recordUpdate returns a int
-			
-			if(recordUpdate != 1) {
-				throw new SQLException (" Record was not able to be updated");
+
+			int recordUpdate = pstmt.executeUpdate(); // recordUpdate returns a int
+
+			if (recordUpdate != 1) {
+				throw new SQLException(" Record was not able to be updated");
 			}
-			
+
 		}
 		return new Client(clientdId, client.getName());
 	}
 
+	public void deleteClient(int clientId) throws SQLException {
+		try (Connection con = ConnectionUtility.getConnection()) {
+			String sql = "DELETE FROM Project0.client WHERE id = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
 
+			pstmt.setInt(1, clientId);
+
+			int recordsDeleted = pstmt.executeUpdate();
+
+			// if it is not 1, we know that no records were actually deleted
+			if (recordsDeleted != 1) {
+				throw new SQLException("Record was not able to be deleted");
+			}
+		}
+	}
 }

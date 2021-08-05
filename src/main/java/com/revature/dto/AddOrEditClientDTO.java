@@ -25,6 +25,11 @@ public class AddOrEditClientDTO {
 	public int getId() {	// no setter for Id
 		return id;
 	}
+
+	public void setId(int clientId) {
+		this.id = clientId;
+		
+	}
 	
 
 }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.revature.dto.AddOrEditClientDTO;
+import com.revature.exception.BadParameterException;
 import com.revature.exception.ClientNotFoundException;
 import com.revature.exception.DatabaseException;
 import com.revature.model.Client;
@@ -69,18 +70,35 @@ public class Application {
 //			e.printStackTrace();
 //		}
 		
+		// edit a client info
+//		try {
+//			AddOrEditClientDTO clientDto = new AddOrEditClientDTO();
+//			clientDto.setName("EditedName");
+//			
+//			Client client = clientService.editClient("1", clientDto);
+//			System.out.println(client);
+//
+//		}catch(ClientNotFoundException e) {
+//			System.out.println(e.getMessage());
+//		}catch (DatabaseException e) {
+//			System.out.println(" Something went wrong with interacting with database");
+//		}
+//}
+	
 		try {
+	
 			AddOrEditClientDTO clientDto = new AddOrEditClientDTO();
-			clientDto.setName("EditedName");
+	
 			
-			Client client = clientService.editClient(1, clientDto);
-			System.out.println(client);
+			Client deletedClient = clientService.deleteClient("5");
+			
 
 		}catch(ClientNotFoundException e) {
 			System.out.println(e.getMessage());
+		}catch(BadParameterException e) {
+			System.out.println(e.getMessage());
 		}catch (DatabaseException e) {
-			System.out.println(" Something went wrong with interacting with database");
+			System.out.println(e.getMessage());
 		}
 }
-	
 }

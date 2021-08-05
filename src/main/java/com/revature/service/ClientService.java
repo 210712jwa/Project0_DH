@@ -8,6 +8,7 @@ import java.util.List;
 import com.revature.dao.ClientDAO;
 import com.revature.dao.ClientDAOImpl;
 import com.revature.dto.AddOrEditClientDTO;
+import com.revature.exception.BadParameterException;
 import com.revature.exception.ClientNotFoundException;
 import com.revature.exception.DatabaseException;
 import com.revature.model.Client;
@@ -31,10 +32,11 @@ public class ClientService {
 		}
 	}
 
-	public Client getClientById(int id) throws DatabaseException, ClientNotFoundException {
+	public Client getClientById(String id) throws DatabaseException, ClientNotFoundException {
 		try {
+			int clientId = Integer.parseInt(id);
 
-			Client client = clientDao.getClientById(id);
+			Client client = clientDao.getClientById(clientId);
 
 			if (client == null) {
 				throw new ClientNotFoundException(" Client with id " + id + " was not found");
@@ -59,10 +61,12 @@ public class ClientService {
 
 	}
 
-	public Client editClient(int clientId, AddOrEditClientDTO client)
+	public Client editClient(String stringId, AddOrEditClientDTO client)
 			throws DatabaseException, ClientNotFoundException {
 
 		try {
+			int clientId = Integer.parseInt(stringId);
+
 			if (clientDao.getClientById(clientId) == null) {
 				throw new ClientNotFoundException("The client with id " + clientId + " was not found");
 			}
@@ -76,4 +80,23 @@ public class ClientService {
 		}
 	}
 
+	public Client deleteClient(String clientid) throws DatabaseException, BadParameterException, ClientNotFoundException {
+		try {
+			int id = Integer.parseInt(clientid);
+
+			Client client = clientDao.getClientById(id);
+			if (client == null) {
+				throw new ClientNotFoundException("Client with an id " + id + " does not exist");
+			}
+
+			clientDao.deleteClient(id);
+			System.out.println("Client " + id + " has been deleted");
+
+		} catch (SQLException e) {
+			throw new DatabaseException("Something went wrong with our DAO operations");
+		} catch (NumberFormatException e) {
+			throw new BadParameterException( clientid + " was passed in by the user as the id, " + "but it is not an int");
+		}
+		return null;
+	}
 }
