@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.revature.dto.AddOrEditClientDTO;
 import com.revature.exception.ClientNotFoundException;
 import com.revature.exception.DatabaseException;
 import com.revature.model.Client;
@@ -29,7 +30,7 @@ public class Application {
 
 		
 		ClientService clientService = new ClientService();
-		
+		// get client by id
 //		try {
 //			List<Client> clients = clientService.getAllClients();
 //			
@@ -50,16 +51,36 @@ public class Application {
 //			e.printStackTrace();
 //		}
 //		
+		
+//		// add client
+//		try {
+//			//Client clientToInsert = new Client ("tester2");
+//			
+//			AddOrEditClientDTO clientDto = new AddOrEditClientDTO();
+//					clientDto.setName("rebecca");
+//			
+//			Client createdClient = clientService.addClient(clientDto);
+//			System.out.println("Client added: " + createdClient);
+//			
+//		} catch (DatabaseException e ) {
+//			System.out.println(" Something went wrong with interacting with database");
+//		} catch (ClientIdTakenException e) {
+//			System.out.println( e.getMessage());
+//			e.printStackTrace();
+//		}
+		
 		try {
-			Client clientToInsert = new Client ("tester");
+			AddOrEditClientDTO clientDto = new AddOrEditClientDTO();
+			clientDto.setName("EditedName");
 			
-			Client createdClient = clientService.addClient(clientToInsert);
-			System.out.println("Client added: " + createdClient);
-		} catch (DatabaseException e ) {
+			Client client = clientService.editClient(1, clientDto);
+			System.out.println(client);
+
+		}catch(ClientNotFoundException e) {
+			System.out.println(e.getMessage());
+		}catch (DatabaseException e) {
 			System.out.println(" Something went wrong with interacting with database");
-		} catch (ClientIdTakenException e) {
-			System.out.println( e.getMessage());
-			e.printStackTrace();
 		}
 }
+	
 }

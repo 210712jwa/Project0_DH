@@ -3,6 +3,7 @@ package com.revature.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.revature.dto.AddOrEditClientDTO;
 import com.revature.model.Client;
 
 public interface ClientDAO {
@@ -27,7 +28,7 @@ public interface ClientDAO {
 	 * @throws SQLException
 	 */
 
-	public abstract Client addClient(String string) throws SQLException;
+	public abstract Client addClient(AddOrEditClientDTO name) throws SQLException;
 	
 	/**
 	 * This method adds a Client to the database
@@ -36,7 +37,7 @@ public interface ClientDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public abstract Client editClient(Client client) throws SQLException;
+	public abstract Client editClient(int id, AddOrEditClientDTO client) throws SQLException;
 
 	/**
 	 * This method edits a client info in the database
@@ -45,10 +46,6 @@ public interface ClientDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-
-	public abstract Client addAccount(Client client) throws SQLException;
-
-	public abstract Client editAccount(Client client) throws SQLException;
 
 
 
