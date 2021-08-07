@@ -99,4 +99,9 @@ public class ClientService {
 		}
 		return null;
 	}
+
+// CLient test object
+public ClientService( ClientDAO mockedDaoObject) {
+	this.clientDao = mockedDaoObject;
+}
 }

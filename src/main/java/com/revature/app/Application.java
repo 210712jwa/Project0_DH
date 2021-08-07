@@ -1,104 +1,35 @@
 package com.revature.app;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.revature.dto.AddOrEditClientDTO;
-import com.revature.exception.BadParameterException;
-import com.revature.exception.ClientNotFoundException;
-import com.revature.exception.DatabaseException;
-import com.revature.model.Client;
-import com.revature.service.ClientIdTakenException;
-import com.revature.service.ClientService;
-import com.revature.util.ConnectionUtility;
+import com.revature.controller.ClientController;
+import com.revature.controller.Controller;
+import com.revature.controller.TestController;
+
+import io.javalin.Javalin;
 
 public class Application {
 
-	public Application() {
-		// TODO Auto-generated constructor stub
+	private static Javalin app;
+	private static Logger logger = LoggerFactory.getLogger(Application.class);
+	
+	
+	public static void main(String[] args) {
+		app = Javalin.create();
+		
+		mapControllers(new TestController(), new ClientController());
+		
+		app.start(7000);
+
+		
+
+	}
+	
+	public static void mapControllers(Controller... controllers ) { // using var-args
+		for (Controller c : controllers) {	// abstraction and polymorphism
+			c.mapEndpoints(Application.app);
+		}
 	}
 
-	public static void main(String[] args) {
-		
-//
-//		System.out.println(System.getenv("db_url"));
-//		System.out.println(System.getenv("db_username"));
-//		System.out.println(System.getenv("db_password"));
-//		
-//		
-
-		
-		ClientService clientService = new ClientService();
-		// get client by id
-//		try {
-//			List<Client> clients = clientService.getAllClients();
-//			
-//			System.out.println(clients);
-//			
-//		}catch(DatabaseException e) {
-//			System.out.println(" Something went wrong with interacting with database: error ");
-//		}
-//
-//		try {
-//			Client client = clientService.getClientById(2);
-//			System.out.println(client);
-//		} catch (DatabaseException e) {
-//			System.out.println(" Something went wrong with interacting with database: error");
-//			e.printStackTrace();
-//		} catch (ClientNotFoundException e) {
-//			System.out.println( e.getMessage());
-//			e.printStackTrace();
-//		}
-//		
-		
-//		// add client
-//		try {
-//			//Client clientToInsert = new Client ("tester2");
-//			
-//			AddOrEditClientDTO clientDto = new AddOrEditClientDTO();
-//					clientDto.setName("rebecca");
-//			
-//			Client createdClient = clientService.addClient(clientDto);
-//			System.out.println("Client added: " + createdClient);
-//			
-//		} catch (DatabaseException e ) {
-//			System.out.println(" Something went wrong with interacting with database");
-//		} catch (ClientIdTakenException e) {
-//			System.out.println( e.getMessage());
-//			e.printStackTrace();
-//		}
-		
-		// edit a client info
-//		try {
-//			AddOrEditClientDTO clientDto = new AddOrEditClientDTO();
-//			clientDto.setName("EditedName");
-//			
-//			Client client = clientService.editClient("1", clientDto);
-//			System.out.println(client);
-//
-//		}catch(ClientNotFoundException e) {
-//			System.out.println(e.getMessage());
-//		}catch (DatabaseException e) {
-//			System.out.println(" Something went wrong with interacting with database");
-//		}
-//}
-	
-		try {
-	
-			AddOrEditClientDTO clientDto = new AddOrEditClientDTO();
-	
-			
-			Client deletedClient = clientService.deleteClient("5");
-			
-
-		}catch(ClientNotFoundException e) {
-			System.out.println(e.getMessage());
-		}catch(BadParameterException e) {
-			System.out.println(e.getMessage());
-		}catch (DatabaseException e) {
-			System.out.println(e.getMessage());
-		}
-}
 }
