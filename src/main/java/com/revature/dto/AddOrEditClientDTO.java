@@ -8,7 +8,6 @@ package com.revature.dto;
 public class AddOrEditClientDTO {
 
 	private String name;
-	private int id;
 	
 	public AddOrEditClientDTO() {
 	super();	
@@ -22,15 +21,7 @@ public class AddOrEditClientDTO {
 		this.name = name;
 	}
 
-	public int getId() {	// no setter for Id
-		return id;
-	}
-
-	public void setId(int clientId) {
-		this.id = clientId;
 		
 	}
 	
-
-}
 

@@ -32,7 +32,7 @@ public class ClientService {
 		}
 	}
 
-	public Client getClientById(String id) throws DatabaseException, ClientNotFoundException {
+	public Client getClientById(String id) throws DatabaseException, ClientNotFoundException, BadParameterException {
 		try {
 			int clientId = Integer.parseInt(id);
 
@@ -45,10 +45,16 @@ public class ClientService {
 			return client;
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with DAO operation");
+		} catch (NumberFormatException e) {
+			throw new BadParameterException(id + " was passed in by the user as the id, " + "but it is not an int");
 		}
 	}
 
-	public Client addClient(AddOrEditClientDTO client) throws DatabaseException, ClientIdTakenException {
+	public Client addClient(AddOrEditClientDTO client) throws DatabaseException, BadParameterException {
+		
+		 if (client.getName().trim().equals("")) {
+			 throw new BadParameterException("Client name cannot be blank");
+		 }
 		try {
 
 			Client addedClient = clientDao.addClient(client);
@@ -80,7 +86,7 @@ public class ClientService {
 		}
 	}
 
-	public Client deleteClient(String clientid) throws DatabaseException, BadParameterException, ClientNotFoundException {
+	public void deleteClient(String clientid) throws DatabaseException, BadParameterException, ClientNotFoundException {
 		try {
 			int id = Integer.parseInt(clientid);
 
@@ -90,14 +96,12 @@ public class ClientService {
 			}
 
 			clientDao.deleteClient(id);
-			System.out.println("Client " + id + " has been deleted");
 
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with our DAO operations");
 		} catch (NumberFormatException e) {
 			throw new BadParameterException( clientid + " was passed in by the user as the id, " + "but it is not an int");
 		}
-		return null;
 	}
 
 // CLient test object
