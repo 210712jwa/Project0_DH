@@ -3,10 +3,13 @@ package com.revature.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 import com.revature.dao.AccountDAO;
 import com.revature.dao.AccountDAOImpl;
 import com.revature.dao.ClientDAO;
 import com.revature.dao.ClientDAOImpl;
+import com.revature.dto.AddOrEditAccountDTO;
 import com.revature.model.Account;
 import com.revature.model.Client;
 import com.revature.exception.BadParameterException;
@@ -23,41 +26,36 @@ public class AccountService {
 		this.clientDao = new ClientDAOImpl();
 	}
 
-	public List<Account> getAllAccountsFromClient(String stringClientId)throws BadParameterException, ClientNotFoundException, DatabaseException {
+	public List<Account> getAllAccountsFromClient(String stringclientId)throws BadParameterException, DatabaseException, ClientNotFoundException {
 
 		try {
-			int clientId = Integer.parseInt(stringClientId);
+			int clientId = Integer.parseInt(stringclientId);
 			
 			List<Account> accounts = accountDao.getAllAccountsById(clientId);
 
 			if (clientDao.getClientById(clientId) == null) {
-				throw new ClientNotFoundException(" Client with id " + stringClientId + " was not found");
+				throw new ClientNotFoundException(" Client with id " + stringclientId + " was not found");
 			}
-
 			return accounts;
-
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
-		} catch (ClientNotFoundException e) {
-			throw new BadParameterException(stringClientId + " was passed in by the user as the id, " + "but it is not an int");
 		}
 	}
 
-	public List<Account> addAccountToClient(String stringClientId) {
-		int clientId = Integer.parseInt(stringClientId);
+	public Account addAccount(AddOrEditAccountDTO account) throws SQLException, BadParameterException, NumberFormatException {
 		
-		List<Account> addedAccount = accountDao.addAccount(clientId);
+		int clientId = Integer.parseInt(account.getClientId());
+		
+		
+		 if (account.getAccType().trim().equals("")) {
+			 throw new BadParameterException("Account Type cannot be black");
+		 }
+		Account addedAccount = accountDao.addAccount(account);
 
 		return addedAccount;
 	}
 
 	
-	
-	
-	
-	
-	
-
 	public List<Account> editAccount(String stringClientId) {
 		int clientId = Integer.parseInt(stringClientId);
 		return null;

@@ -2,6 +2,8 @@ package com.revature.controller;
 
 import java.util.List;
 
+import com.revature.dto.AddOrEditAccountDTO;
+import com.revature.dto.AddOrEditClientDTO;
 import com.revature.model.Account;
 import com.revature.model.Client;
 import com.revature.service.AccountService;
@@ -27,12 +29,13 @@ public class AccountController implements Controller {
 	};
 	
 	private Handler addAccount = (ctx) -> {
-		String clientId = ctx.pathParam("clientId");
-		
-	List<Account> addedClient = AccountService.addAccountToClient(clientId);
+		AddOrEditAccountDTO accountToAdd = ctx.bodyAsClass(AddOrEditAccountDTO.class);
+
+		Account addedAccount = AccountService.addAccount(accountToAdd);
+	
 	
 	ctx.status(200);
-	ctx.json(addedClient);
+	ctx.json(addedAccount);
 	};
 	
 	private Handler editAccount = (ctx) -> {
@@ -52,7 +55,11 @@ public class AccountController implements Controller {
 	ctx.status(200);
 	ctx.json(clients);
 	};
-	
+
+//		"accountType": "checking",
+//		"balance" : 134324
+//		}
+
 	
 	public void mapEndpoints(Javalin app) {
 		app.get("/client/:clientId/account", getAccountsFromClient);

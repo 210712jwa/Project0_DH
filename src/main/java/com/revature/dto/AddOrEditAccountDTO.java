@@ -2,22 +2,30 @@ package com.revature.dto;
 
 public class AddOrEditAccountDTO {
 
-	private int clientId;
 	private String accType;
-	private int accNumber;
+	private String balance;
+	private String clientId;
+	private int intClientId;
+	private double dBalance;
 	
-	public int getAccNumber() {
-		return accNumber;
+	
+	public int getIntClientId() {
+		return intClientId;
 	}
-	public void setAccNumber(int accNumber) {
-		this.accNumber = accNumber;
+	public void setIntClientId(int intClientId) {
+		this.intClientId = intClientId;
 	}
-
-	public int getClientId() {
-		return clientId;
+	public double getdBalance() {
+		return dBalance;
 	}
-	public void setClientId(int clientId) {
-		this.clientId = clientId;
+	public void setdBalance(double dBalance) {
+		this.dBalance = dBalance;
+	}
+	public String getBalance() {
+		return balance;
+	}
+	public void setBalance(String balance) {
+		this.balance = balance;
 	}
 	public String getAccType() {
 		return accType;
@@ -25,6 +33,12 @@ public class AddOrEditAccountDTO {
 	public void setAccType(String accType) {
 		this.accType = accType;
 	}
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 	
-	
+
 }

@@ -14,6 +14,8 @@ import com.revature.exception.DatabaseException;
 import com.revature.model.Client;
 import com.revature.util.ConnectionUtility;
 
+// handles all the exceptions here
+
 public class ClientService {
 
 	private ClientDAO clientDao;
