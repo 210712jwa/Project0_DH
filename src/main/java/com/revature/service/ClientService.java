@@ -52,20 +52,14 @@ public class ClientService {
 		}
 	}
 
-	public Client addClient(AddOrEditClientDTO client) throws DatabaseException, BadParameterException {
+	public Client addClient(AddOrEditClientDTO client) throws DatabaseException, BadParameterException, SQLException {
 		
 		 if (client.getName().trim().equals("")) {
 			 throw new BadParameterException("Client name cannot be blank");
 		 }
-		try {
+		Client addedClient = clientDao.addClient(client);
 
-			Client addedClient = clientDao.addClient(client);
-
-			return addedClient;
-
-		} catch (SQLException e) {
-			throw new DatabaseException("Something went wrong with DAO operations");
-		}
+		return addedClient;
 
 	}
 

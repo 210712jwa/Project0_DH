@@ -67,19 +67,13 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public Account addAccount(AddOrEditAccountDTO account) throws SQLException {
 		try (Connection con = ConnectionUtility.getConnection()) {
-			String sql = "INSERT INTO Project0.account ( accType, balance) VALUES (?,?,?)";
+			String sql = "INSERT INTO Project0.account ( clientId, accType, balance) VALUES (?,?,?)";
 
 			PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			pstmt.setInt(1, account.getIntClientId());
+			pstmt.setInt(1, account.getClientId());
 			pstmt.setString(2, account.getAccType());
-			pstmt.setDouble(3, account.getdBalance());
-			
-			System.out.println(account.getClientId());
-			System.out.println(account.getAccType());
-			System.out.println(account.getBalance());
-			System.out.println("-------------------------------------------------------------------------------");
-
+			pstmt.setDouble(3, account.getBalance());
 			int recordsUpdated = pstmt.executeUpdate();
 
 			if (recordsUpdated != 1) {
@@ -87,7 +81,7 @@ public class AccountDAOImpl implements AccountDAO {
 			}
 			ResultSet generatedKeys = pstmt.getGeneratedKeys();
 			if (generatedKeys.next()) {
-				System.out.println("-------------------------------------------------------------------------------here");
+			
 				Account createdAccount = new Account( account.getIntClientId(), generatedKeys.getInt(1), account.getAccType(), account.getdBalance());
 
 				return createdAccount;

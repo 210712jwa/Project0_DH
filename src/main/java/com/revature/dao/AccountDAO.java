@@ -20,6 +20,8 @@ public interface AccountDAO {
 
 	Account deleteAccount(int clientId);
 
+	//Account addAccount(int clientId) throws SQLException;
+
 	Account addAccount(AddOrEditAccountDTO account) throws SQLException;
 	
 

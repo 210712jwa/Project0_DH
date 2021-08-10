@@ -3,8 +3,8 @@ package com.revature.dto;
 public class AddOrEditAccountDTO {
 
 	private String accType;
-	private String balance;
-	private String clientId;
+	private double balance;
+	private int clientId;
 	private int intClientId;
 	private double dBalance;
 	
@@ -21,10 +21,10 @@ public class AddOrEditAccountDTO {
 	public void setdBalance(double dBalance) {
 		this.dBalance = dBalance;
 	}
-	public String getBalance() {
+	public double getBalance() {
 		return balance;
 	}
-	public void setBalance(String balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	public String getAccType() {
@@ -33,10 +33,10 @@ public class AddOrEditAccountDTO {
 	public void setAccType(String accType) {
 		this.accType = accType;
 	}
-	public String getClientId() {
+	public int getClientId() {
 		return clientId;
 	}
-	public void setClientId(String clientId) {
+	public void setClientId(int clientId) {
 		this.clientId = clientId;
 	}
 	

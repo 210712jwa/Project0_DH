@@ -44,9 +44,6 @@ public class AccountService {
 
 	public Account addAccount(AddOrEditAccountDTO account) throws SQLException, BadParameterException, NumberFormatException {
 		
-		int clientId = Integer.parseInt(account.getClientId());
-		
-		
 		 if (account.getAccType().trim().equals("")) {
 			 throw new BadParameterException("Account Type cannot be black");
 		 }
