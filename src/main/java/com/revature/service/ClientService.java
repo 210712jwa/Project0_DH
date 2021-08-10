@@ -63,8 +63,7 @@ public class ClientService {
 
 	}
 
-	public Client editClient(String stringId, AddOrEditClientDTO client)
-			throws DatabaseException, ClientNotFoundException {
+	public Client editClient(String stringId, AddOrEditClientDTO client) throws DatabaseException, ClientNotFoundException {
 
 		try {
 			int clientId = Integer.parseInt(stringId);

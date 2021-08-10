@@ -11,18 +11,29 @@ import com.revature.model.Client;
 
 public interface AccountDAO {
 
-	List<Account> getAllAccounts(int clientId) throws SQLException;
-
-	List<Account> getAllAccountsById(int clientId) throws SQLException;
-
+	List<Account> getAllAccounts() throws SQLException;
 	
-	Account editAccount(int clientId);
 
-	Account deleteAccount(int clientId);
+void deleteAccount(int clientId) throws SQLException;
 
 	//Account addAccount(int clientId) throws SQLException;
 
 	Account addAccount(AddOrEditAccountDTO account) throws SQLException;
+
+	Account editAccount(int clientId, AddOrEditAccountDTO account) throws SQLException;
+
+
+	List<Account> getAllAccountsByClientId(int clientId) throws SQLException;
+
+	Account getSpecificAccountFromClient(int accountId, int clientId) throws SQLException;
+
+
+	List<Account> getAccountsUnderCond(int accId, int minAmount, int maxAmount) throws SQLException;
+
+
+	List<Account> getAllAccountsById(int clientId) throws SQLException;
+
+
 	
 
 }

@@ -41,6 +41,24 @@ public class AccountService {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
+	
+	public Account getSpecificAccountFromClient( String stringAccountId, String stringClientId) throws ClientNotFoundException, DatabaseException {
+		try {
+			int accountId = Integer.parseInt(stringAccountId);
+			int clientId = Integer.parseInt(stringClientId);
+			
+			if (clientDao.getClientById(clientId) == null) {
+				throw new ClientNotFoundException(" Client with id " + stringClientId + " was not found");
+			}
+			
+			Account accounts = accountDao.getSpecificAccountFromClient( accountId, clientId);
+			
+			
+			return accounts;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		}
+	}
 
 	public Account addAccount(AddOrEditAccountDTO account) throws SQLException, BadParameterException, NumberFormatException {
 		
@@ -52,14 +70,66 @@ public class AccountService {
 		return addedAccount;
 	}
 
+	// edit these down here
 	
-	public List<Account> editAccount(String stringClientId) {
-		int clientId = Integer.parseInt(stringClientId);
-		return null;
+	
+	public Account editAccount(String stringAccountId, AddOrEditAccountDTO account) throws ClientNotFoundException, DatabaseException {
+		try {
+			int accId = Integer.parseInt(stringAccountId);
+
+			if (accountDao.getAllAccountsById(accId) == null) {
+				throw new ClientNotFoundException("The account with id " + accId + " was not found");
+			}
+
+			
+			Account editedAccount= accountDao.editAccount(accId, account);
+
+			return editedAccount;
+		} catch (SQLException e) {
+			throw new DatabaseException("Something went wrong with DAO operation");
+		}
 	}
 
-	public List<Account> delete(String stringClientId) {
-		int clientId = Integer.parseInt(stringClientId);
-		return null;
+
+	public void deleteAccount(String stringAccountId) throws DatabaseException, ClientNotFoundException, BadParameterException {
+		try {
+			int accId = Integer.parseInt(stringAccountId);
+
+			List<Account> account= accountDao.getAllAccountsByClientId(accId);
+			if (account == null) {
+				throw new ClientNotFoundException("Account with an id " + stringAccountId + " does not exist");
+			}
+
+			clientDao.deleteClient(accId);
+
+		} catch (SQLException e) {
+			throw new DatabaseException("Something went wrong with our DAO operations");
+		} catch (NumberFormatException e) {
+			throw new BadParameterException( stringAccountId + " was passed in by the user as the id, " + "but it is not an int");
+		}
 	}
+
+	public List<Account> getAllAccounts() throws DatabaseException {
+		try {
+			List<Account> account = accountDao.getAllAccounts();
+
+			return account;
+		} catch (SQLException e) {
+			throw new DatabaseException("Something went wrong with DAO operation");
+		}
+	}
+
+	public List<Account> getAccountsUnderCond(String stringClientId, String stringMinAmount, String stringMaxAmount) throws DatabaseException {
+		try {
+			int clientId = Integer.parseInt(stringClientId);
+			int minAmount = Integer.parseInt(stringMinAmount);
+			int maxAmount = Integer.parseInt(stringMaxAmount);
+			List<Account> account = accountDao.getAccountsUnderCond(clientId, minAmount, maxAmount);
+
+			return account;
+		} catch (SQLException e) {
+			throw new DatabaseException("Something went wrong with DAO operation");
+		}
+	}
+
 }

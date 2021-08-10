@@ -13,8 +13,8 @@ public class Account {
 		super();
 	}
 	
-	public Account( int clientId, int acc_id, String aType, double bal) {
-		this.accId = acc_id;
+	public Account( int accId, int clientId, String aType, double bal) {
+		this.accId = accId;
 		this.cliendId = clientId;
 		this.accType = aType;
 		this.balance = bal;

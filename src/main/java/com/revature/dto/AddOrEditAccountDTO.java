@@ -5,16 +5,9 @@ public class AddOrEditAccountDTO {
 	private String accType;
 	private double balance;
 	private int clientId;
-	private int intClientId;
+
 	private double dBalance;
 	
-	
-	public int getIntClientId() {
-		return intClientId;
-	}
-	public void setIntClientId(int intClientId) {
-		this.intClientId = intClientId;
-	}
 	public double getdBalance() {
 		return dBalance;
 	}

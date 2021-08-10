@@ -41,7 +41,7 @@ public class ClientController implements Controller {
 	private Handler editClient = (ctx) -> {
 		AddOrEditClientDTO clientToEdit = ctx.bodyAsClass(AddOrEditClientDTO.class);
 
-		String clientId = ctx.pathParam("shipid");
+		String clientId = ctx.pathParam("clientid");
 		Client editedClient = ClientService.editClient(clientId, clientToEdit);
 
 		ctx.json(editedClient);
