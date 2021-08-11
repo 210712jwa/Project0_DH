@@ -46,31 +46,7 @@ public class AccountDAOImpl implements AccountDAO {
 		return accounts;
 	}
 
-	@Override
-	public List<Account> getAllAccountsById(int clientId) throws SQLException {
-		try (Connection con = ConnectionUtility.getConnection()) {
 
-			List<Account> accounts = new ArrayList<>();
-			String sql = "SELECT * FROM Project0.account a WHERE a.clientId = ?";
-			PreparedStatement pstmt = con.prepareStatement(sql);
-
-			pstmt.setInt(1, clientId);
-
-			ResultSet rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				int client_id = rs.getInt("clientId");
-				int acc_id = rs.getInt("accId");
-				String accType = rs.getString("accType");
-				double balance = rs.getDouble("balance");
-
-				Account acc = new Account(acc_id, client_id, accType, balance);
-				accounts.add(acc);
-
-			}
-			return accounts;
-		}
-	}
 
 	@Override
 	public Account getSpecificAccountFromClient(int accountId, int clientId) throws SQLException {
@@ -98,6 +74,7 @@ public class AccountDAOImpl implements AccountDAO {
 	}
 
 	@Override
+
 	public List<Account> getAllAccountsByClientId(int clientId) throws SQLException {
 
 		try (Connection con = ConnectionUtility.getConnection()) {
@@ -216,11 +193,11 @@ public class AccountDAOImpl implements AccountDAO {
 			}
 		}
 	}
-
+	
 	@Override
-	public List<Account> getAllAccountsById(int clientId, double minAmount, double maxAmount) throws SQLException {
-		List<Account> accounts = new ArrayList<>();
+	public List<Account> getAllAccountsByClientId(int clientId, double minAmount, double maxAmount) throws SQLException {
 		try (Connection con = ConnectionUtility.getConnection()) {
+			List<Account> accounts = new ArrayList<>();
 
 			String sql = "SELECT * FROM Project0.account a WHERE a.clientId = ? && balance > ? && balance < ?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -240,9 +217,34 @@ public class AccountDAOImpl implements AccountDAO {
 				Account acc = new Account(acc_id, client_id, accType, balance);
 				accounts.add(acc);
 			}
-	}	return accounts;
+		return accounts;
+		}
+	}	
+
+
+
+
+	@Override
+	public void deleteAccount(int clientId, int accId) throws SQLException {
+		try (Connection con = ConnectionUtility.getConnection()) {
+			String sql = "DELETE FROM Project0.account WHERE clientId = ? AND accId = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, clientId);
+			pstmt.setInt(2, accId);
+
+			int recordsDeleted = pstmt.executeUpdate();
+
+			// if it is not 1, we know that no records were actually deleted
+			if (recordsDeleted != 1) {
+				throw new SQLException("Record was not able to be deleted");
+			}
+		}
+		
 	}
 }
+
+
 
 //	@Override
 //	public List<Account> getAccountsWithMinMaxCond(int clientId, double minAmount, double MaxAmount) throws SQLException {

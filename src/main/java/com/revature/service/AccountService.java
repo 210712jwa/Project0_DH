@@ -48,7 +48,7 @@ public class AccountService {
 			return accounts;
 		} else {
 
-			List<Account> accounts = accountDao.getAllAccountsById(clientId);
+			List<Account> accounts = accountDao.getAllAccountsByClientId(clientId);
 			return accounts;
 		}
 	}
@@ -89,7 +89,7 @@ public class AccountService {
 		try {
 			int accId = Integer.parseInt(stringAccountId);
 
-			if (accountDao.getAllAccountsById(accId) == null) {
+			if (accountDao.getAllAccountsByClientId(accId) == null) {
 				throw new ClientNotFoundException("The account with id " + accId + " was not found");
 			}
 
@@ -101,17 +101,18 @@ public class AccountService {
 		}
 	}
 
-	public void deleteAccount(String stringAccountId)
+	public void deleteAccount(String stringClientId, String stringAccountId)
 			throws DatabaseException, ClientNotFoundException, BadParameterException {
 		try {
 			int accId = Integer.parseInt(stringAccountId);
+			int clientId = Integer.parseInt(stringAccountId);
 
-			List<Account> account = accountDao.getAllAccountsByClientId(accId);
-			if (account == null) {
+			Client client = clientDao.getClientById(clientId);
+			if (client == null) {
 				throw new ClientNotFoundException("Account with an id " + stringAccountId + " does not exist");
 			}
 
-			clientDao.deleteClient(accId);
+			accountDao.deleteAccount(clientId, accId);
 
 		} catch (SQLException e) {
 			throw new DatabaseException("Something went wrong with our DAO operations");

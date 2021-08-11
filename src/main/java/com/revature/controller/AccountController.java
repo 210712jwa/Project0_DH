@@ -73,9 +73,10 @@ public class AccountController implements Controller {
 	};
 	
 	private Handler deleteAccount = (ctx) -> {
+		String clientId = ctx.pathParam("clientId");
 		String accountId = ctx.pathParam("accountId");
 		
-	AccountService.deleteAccount(accountId);
+	AccountService.deleteAccount(clientId, accountId);
 	
 	};
 
@@ -86,7 +87,7 @@ public class AccountController implements Controller {
 		app.get("/client/:clientId/account/:accountId", getSpecificAccountFromClient);
 		app.post("/client/:clientId/account", addAccount);
 		app.put("/client/:clientId/account", editAccount);
-		app.delete("/client/:clientId/:accountId", deleteAccount); // make a handler for each one
+		app.delete("/client/:clientId/account/:accountId", deleteAccount); // make a handler for each one
 
 	}
 }
