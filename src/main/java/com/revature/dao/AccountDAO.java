@@ -28,10 +28,22 @@ void deleteAccount(int clientId) throws SQLException;
 	Account getSpecificAccountFromClient(int accountId, int clientId) throws SQLException;
 
 
-	List<Account> getAccountsUnderCond(int accId, int minAmount, int maxAmount) throws SQLException;
-
-
 	List<Account> getAllAccountsById(int clientId) throws SQLException;
+
+
+	List<Account> getAccountsWithMinMaxCond(int clientId, double maxAmount, double minAmount) throws SQLException;
+
+
+	List<Account> getAllAccountsById(int clientId, double minAmount, double maxAmount) throws SQLException;
+
+
+
+
+
+	
+
+
+
 
 
 	

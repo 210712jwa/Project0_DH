@@ -99,9 +99,9 @@ public class AccountDAOImpl implements AccountDAO {
 
 	@Override
 	public List<Account> getAllAccountsByClientId(int clientId) throws SQLException {
-		List<Account> accounts = new ArrayList<>();
-		try (Connection con = ConnectionUtility.getConnection()) {
 
+		try (Connection con = ConnectionUtility.getConnection()) {
+			List<Account> accounts = new ArrayList<>();
 			String sql = "SELECT * FROM Project0.account a WHERE a.clientId = ?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 
@@ -122,6 +122,35 @@ public class AccountDAOImpl implements AccountDAO {
 			return accounts;
 		}
 	}
+	
+	@Override
+	public List<Account> getAccountsWithMinMaxCond(int clientId, double maxAmount, double minAmount) throws SQLException {
+		try (Connection con = ConnectionUtility.getConnection()) {
+			
+			List<Account> accounts = new ArrayList<>();
+			String sql = "SELECT * FROM Project0.account a WHERE a.clientId = ? AND a.balance < ? AND a.balance > ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+
+			pstmt.setInt(1, clientId);
+			pstmt.setDouble(2, maxAmount);
+			pstmt.setDouble(3, minAmount);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				int client_id = rs.getInt("clientId");
+				int acc_id = rs.getInt("accId");
+				String accType = rs.getString("accType");
+				double balance = rs.getDouble("balance");
+
+				Account acc = new Account(acc_id, client_id, accType, balance);
+				accounts.add(acc);
+
+			}
+			return accounts;
+		}
+	}
+	
 
 	@Override
 	public Account addAccount(AddOrEditAccountDTO account) throws SQLException {
@@ -188,10 +217,8 @@ public class AccountDAOImpl implements AccountDAO {
 		}
 	}
 
-
-
 	@Override
-	public List<Account> getAccountsUnderCond(int clientId, int minAmount, int maxAmount) throws SQLException {
+	public List<Account> getAllAccountsById(int clientId, double minAmount, double maxAmount) throws SQLException {
 		List<Account> accounts = new ArrayList<>();
 		try (Connection con = ConnectionUtility.getConnection()) {
 
@@ -199,8 +226,8 @@ public class AccountDAOImpl implements AccountDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 
 			pstmt.setInt(1, clientId);
-			pstmt.setInt(2, minAmount);
-			pstmt.setInt(3, maxAmount);
+			pstmt.setDouble(2, minAmount);
+			pstmt.setDouble(3, maxAmount);
 
 			ResultSet rs = pstmt.executeQuery();
 
@@ -211,11 +238,65 @@ public class AccountDAOImpl implements AccountDAO {
 				double balance = rs.getDouble("balance");
 
 				Account acc = new Account(acc_id, client_id, accType, balance);
-
-				return accounts;
+				accounts.add(acc);
 			}
-	}
-		return accounts;
+	}	return accounts;
 	}
 }
+
+//	@Override
+//	public List<Account> getAccountsWithMinMaxCond(int clientId, double minAmount, double MaxAmount) throws SQLException {
+//		List<Account> accounts = new ArrayList<>();
+//		try (Connection con = ConnectionUtility.getConnection()) {
+//
+//			String sql = "SELECT * FROM Project0.account a WHERE a.clientId = ? && balance > ? && balance < ?";
+//			PreparedStatement pstmt = con.prepareStatement(sql);
+//
+//			pstmt.setInt(1, clientId);
+//			pstmt.setDouble(2, minAmount);
+//
+//			ResultSet rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				int client_id = rs.getInt("clientId");
+//				int acc_id = rs.getInt("accId");
+//				String accType = rs.getString("accType");
+//				double balance = rs.getDouble("balance");
+//
+//				Account acc = new Account(acc_id, client_id, accType, balance);
+//				accounts.add(acc);
+//			}
+//	}	return accounts;
+//	}
+//}
+
+//	@Override
+//	public List<Account> getAccountsWithMaxCond(int clientId, double maxAmount) throws SQLException {
+//		List<Account> accounts = new ArrayList<>();
+//		try (Connection con = ConnectionUtility.getConnection()) {
+//
+//			String sql = "SELECT * FROM Project0.account a WHERE a.clientId = ? && balance > ? && balance < ?";
+//			PreparedStatement pstmt = con.prepareStatement(sql);
+//
+//			pstmt.setInt(1, clientId);
+//			pstmt.setDouble(3, maxAmount);
+//
+//			ResultSet rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				int client_id = rs.getInt("clientId");
+//				int acc_id = rs.getInt("accId");
+//				String accType = rs.getString("accType");
+//				double balance = rs.getDouble("balance");
+//
+//				Account acc = new Account(acc_id, client_id, accType, balance);
+//				accounts.add(acc);
+//			}
+//	}	return accounts;
+//	}
+
+
+
+
+
 

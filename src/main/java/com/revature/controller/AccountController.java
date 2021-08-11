@@ -9,60 +9,46 @@ import com.revature.model.Client;
 import com.revature.service.AccountService;
 import com.revature.service.ClientService;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
 
 public class AccountController implements Controller {
 	private AccountService AccountService;
-	
+
 	public AccountController() {
 		this.AccountService = new AccountService();
 	}
-	
+
 	private Handler getAllAccounts = (ctx) -> {
-		
-	List<Account> accounts = AccountService.getAllAccounts();
-	
-	ctx.status(200);
-	ctx.json(accounts);
+
+		List<Account> accounts = AccountService.getAllAccounts();
+
+		ctx.status(200);
+		ctx.json(accounts);
 	};
-	
+
 	private Handler getAccountsFromClient = (ctx) -> {
 		String clientId = ctx.pathParam("clientId");
+		String maxAmount = ctx.queryParam("amountLessThan");
+		String minAmount = ctx.queryParam("amountGreaterThan");
+
+
 		
-	List<Account> clients = AccountService.getAllAccountsFromClient(clientId);
-	
+			List<Account> accounts = AccountService.getAccountsFromClient(clientId, maxAmount, minAmount);
+		
 	ctx.status(200);
-	ctx.json(clients);
+	ctx.json(accounts);
 	};
 	
 	private Handler getSpecificAccountFromClient = (ctx) -> {
 		String clientId = ctx.pathParam("clientId");
 		String accountId = ctx.pathParam("accountId");
 		
-	Account clients = AccountService.getSpecificAccountFromClient( accountId, clientId);
+	Account accounts = AccountService.getSpecificAccountFromClient( accountId, clientId);
 	
 	ctx.status(200);
-	ctx.json(clients);
-	};
-	
-	private Handler getAccountUnderCond = (ctx) -> {
-		String clientId = ctx.pathParam("clientId");
-		String accountId = ctx.pathParam("accountId");
-		String minAmount = ctx.pathParam("amountLessThan");
-		String maxAmount = ctx.pathParam("accountGreaterThan");
-		
-		
-		if (ctx.queryParam("amountLessThan") != null && ctx.queryParam("amountGreaterThan") != null) {
-			
-			List<Account> accounts = AccountService.getAccountsUnderCond(clientId, minAmount, maxAmount);
-			
-		}
-		
-	Account clients = AccountService.getSpecificAccountFromClient(clientId, accountId);
-	
-	ctx.status(200);
-	ctx.json(clients);
+	ctx.json(accounts);
 	};
 	
 	
@@ -91,23 +77,16 @@ public class AccountController implements Controller {
 		
 	AccountService.deleteAccount(accountId);
 	
-
 	};
 
-//		"accountType": "checking",
-//		"balance" : 134324
-//		}
-
 	
-	public void mapEndpoints(Javalin app) {
+	public void mapEndpoints(Javalin app){
 		app.get("/account", getAllAccounts);
 		app.get("/client/:clientId/account", getAccountsFromClient);
 		app.get("/client/:clientId/account/:accountId", getSpecificAccountFromClient);
-		app.get("/clients/:clientId/account/:amountLessThan/:amountGreaterThan" , getAccountUnderCond);
 		app.post("/client/:clientId/account", addAccount);
 		app.put("/client/:clientId/account", editAccount);
-		app.delete("/client/:clientId/:accountId", deleteAccount);		// make a handler for each one
-		
-		
+		app.delete("/client/:clientId/:accountId", deleteAccount); // make a handler for each one
+
 	}
 }
