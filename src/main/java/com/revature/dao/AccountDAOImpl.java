@@ -178,21 +178,7 @@ public class AccountDAOImpl implements AccountDAO {
 		return new Account();
 	}
 
-	public void deleteAccount(int accId) throws SQLException {
-		try (Connection con = ConnectionUtility.getConnection()) {
-			String sql = "DELETE FROM Project0.account WHERE accId = ?";
-			PreparedStatement pstmt = con.prepareStatement(sql);
 
-			pstmt.setInt(1, accId);
-
-			int recordsDeleted = pstmt.executeUpdate();
-
-			// if it is not 1, we know that no records were actually deleted
-			if (recordsDeleted != 1) {
-				throw new SQLException("Record was not able to be deleted");
-			}
-		}
-	}
 	
 	@Override
 	public List<Account> getAllAccountsByClientId(int clientId, double minAmount, double maxAmount) throws SQLException {
@@ -221,11 +207,8 @@ public class AccountDAOImpl implements AccountDAO {
 		}
 	}	
 
-
-
-
 	@Override
-	public void deleteAccount(int clientId, int accId) throws SQLException {
+	public void deleteAccount( int accId, int clientId) throws SQLException {
 		try (Connection con = ConnectionUtility.getConnection()) {
 			String sql = "DELETE FROM Project0.account WHERE clientId = ? AND accId = ?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -233,6 +216,8 @@ public class AccountDAOImpl implements AccountDAO {
 			pstmt.setInt(1, clientId);
 			pstmt.setInt(2, accId);
 
+			System.out.println(clientId);
+			System.out.println(accId);
 			int recordsDeleted = pstmt.executeUpdate();
 
 			// if it is not 1, we know that no records were actually deleted

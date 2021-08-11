@@ -104,9 +104,8 @@ public class AccountService {
 	public void deleteAccount(String stringClientId, String stringAccountId)
 			throws DatabaseException, ClientNotFoundException, BadParameterException {
 		try {
-			int accId = Integer.parseInt(stringAccountId);
+			int accId = Integer.parseInt(stringClientId);
 			int clientId = Integer.parseInt(stringAccountId);
-
 			Client client = clientDao.getClientById(clientId);
 			if (client == null) {
 				throw new ClientNotFoundException("Account with an id " + stringAccountId + " does not exist");
