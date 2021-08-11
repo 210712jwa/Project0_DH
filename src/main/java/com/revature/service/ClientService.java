@@ -14,14 +14,20 @@ import com.revature.exception.DatabaseException;
 import com.revature.model.Client;
 import com.revature.util.ConnectionUtility;
 
-// handles all the exceptions here
+// handles all the exceptions here, and then performs DAOimpl methods if conditions are met
 
 public class ClientService {
 
 	private ClientDAO clientDao;
 
+	// instantiating REAL ClientDAO object
 	public ClientService() {
 		this.clientDao = new ClientDAOImpl();
+	}
+	
+	// instantiating FAKE clientDAO object
+	public ClientService( ClientDAO mockedDaoObject) {
+		this.clientDao = mockedDaoObject;
 	}
 
 	public List<Client> getAllClients() throws DatabaseException {
@@ -72,7 +78,6 @@ public class ClientService {
 				throw new ClientNotFoundException("The client with id " + clientId + " was not found");
 			}
 
-			System.out.println(clientId);
 			Client editedClient = clientDao.editClient(clientId, client);
 
 			return editedClient;
@@ -98,9 +103,6 @@ public class ClientService {
 			throw new BadParameterException( clientid + " was passed in by the user as the id, " + "but it is not an int");
 		}
 	}
+}
 
-// CLient test object
-public ClientService( ClientDAO mockedDaoObject) {
-	this.clientDao = mockedDaoObject;
-}
-}
+

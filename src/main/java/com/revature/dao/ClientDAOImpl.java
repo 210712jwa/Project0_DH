@@ -11,7 +11,12 @@ import java.util.List;
 import com.revature.dto.AddOrEditClientDTO;
 import com.revature.model.Client;
 import com.revature.util.ConnectionUtility;
-
+/**
+ * this is where we perform our operations on out DAO passing in. each method starts with trying to get connection, obtain a statment object, exe the query, and then store the ResultSet(doesnt actually
+ * store data). ResultSet is stored by iterating over results and obtaining one result at a time. 
+ * @author david
+ *
+ */
 public class ClientDAOImpl implements ClientDAO {
 
 	@Override

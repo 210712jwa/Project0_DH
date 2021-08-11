@@ -13,6 +13,13 @@ import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
 
+/**
+ * collect HTTP input for clients and then calls a Handler
+ * These are NOT  methods. These are  lambda expressions that is basically implementing the Handler functional interface.
+ * Therefore these are  Handler object definition
+ * @author david
+ *
+ */
 public class AccountController implements Controller {
 	private AccountService AccountService;
 
@@ -65,8 +72,9 @@ public class AccountController implements Controller {
 	private Handler editAccount = (ctx) -> {
 		AddOrEditAccountDTO accountToEdit = ctx.bodyAsClass(AddOrEditAccountDTO.class);
 		
+		String clientId = ctx.pathParam("clientId");
 		String accountId = ctx.pathParam("accId");
-		Account editedAccount = AccountService.editAccount(accountId, accountToEdit);
+		Account editedAccount = AccountService.editAccount(clientId, accountId, accountToEdit);
 	
 	ctx.status(200);
 	ctx.json(editedAccount);
@@ -86,8 +94,8 @@ public class AccountController implements Controller {
 		app.get("/client/:clientId/account", getAccountsFromClient);
 		app.get("/client/:clientId/account/:accountId", getSpecificAccountFromClient);
 		app.post("/client/:clientId/account", addAccount);
-		app.put("/client/:clientId/account", editAccount);
-		app.delete("/client/:clientId/account/:accountId", deleteAccount); // make a handler for each one
+		app.put("/client/:clientId/account/accountId", editAccount);
+		app.delete("/client/:clientId/account/:accountId", deleteAccount); 
 
 	}
 }

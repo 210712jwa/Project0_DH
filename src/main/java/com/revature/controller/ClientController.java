@@ -7,7 +7,11 @@ import com.revature.model.Client;
 import com.revature.service.ClientService;
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
-
+/**
+ * collect HTTP input for clients and then calls a Handler
+ * @author david
+ *
+ */
 public class ClientController implements Controller {
 
 	private ClientService ClientService;

@@ -1,6 +1,7 @@
 package com.revature.service;
 
 import java.sql.SQLException;
+
 import java.util.List;
 
 import javax.security.auth.login.AccountNotFoundException;
@@ -19,11 +20,13 @@ import com.revature.exception.BadParameterException;
 import com.revature.exception.ClientNotFoundException;
 import com.revature.exception.DatabaseException;
 
+//handles all the exceptions here and performs DAOimpl methods if conditions are met
 public class AccountService {
 
 	private AccountDAO accountDao;
 	private ClientDAO clientDao;
 
+	// instantiate REAL AccountDAO object
 	public AccountService() {
 		this.accountDao = new AccountDAOImpl();
 		this.clientDao = new ClientDAOImpl();
@@ -84,9 +87,9 @@ public class AccountService {
 
 	// edit these down here
 
-	public Account editAccount(String stringAccountId, AddOrEditAccountDTO account)
-			throws ClientNotFoundException, DatabaseException {
+	public Account editAccount(String stringClientId, String stringAccountId, AddOrEditAccountDTO account) throws ClientNotFoundException, DatabaseException {
 		try {
+			int clientId = Integer.parseInt(stringClientId);
 			int accId = Integer.parseInt(stringAccountId);
 
 			if (accountDao.getAllAccountsByClientId(accId) == null) {

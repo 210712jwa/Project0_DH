@@ -1,11 +1,22 @@
 package com.revature.dao;
 
 import java.sql.SQLException;
+/**
+ * methods here returns a client(s) back
+	 DTOs are classes that are used to pass data around that might not completely conform to the actual "Model" class
+ * @author david
+ *
+ */
 import java.util.List;
 
 import com.revature.dto.AddOrEditClientDTO;
 import com.revature.model.Client;
-
+/**
+ * methods here returns a client(s) back 
+ * DTOs are classes that are used to pass data around that might not completely conform to the actual "Model" class
+ * @author david
+ *
+ */
 public interface ClientDAO {
 
 	public abstract List<Client> getAllClients() throws SQLException;

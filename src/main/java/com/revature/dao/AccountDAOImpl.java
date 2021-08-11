@@ -13,7 +13,12 @@ import com.revature.dto.EditAccountDTO;
 import com.revature.model.Account;
 import com.revature.model.Client;
 import com.revature.util.ConnectionUtility;
-//if (ctx.queryParam("amountLessThan") != null && ctx.queryParam("amountGreaterThan") != null) {}
+/**
+ *  * methods here returns a client(s) back
+	 DTOs are classes that are used to pass data around that might not completely conform to the actual "Model" class
+ * @author david
+ *
+ */
 
 
 public class AccountDAOImpl implements AccountDAO {

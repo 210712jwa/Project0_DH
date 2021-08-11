@@ -7,7 +7,6 @@ import com.revature.controller.AccountController;
 import com.revature.controller.ClientController;
 import com.revature.controller.Controller;
 import com.revature.controller.ExceptionController;
-import com.revature.controller.TestController;
 
 import io.javalin.Javalin;
 
@@ -20,7 +19,7 @@ public class Application {
 	public static void main(String[] args) {
 		app = Javalin.create();
 		
-		mapControllers(new TestController(), new ClientController(), new AccountController(), new ExceptionController());
+		mapControllers( new ClientController(), new AccountController(), new ExceptionController());
 		
 		app.start(7000);
 

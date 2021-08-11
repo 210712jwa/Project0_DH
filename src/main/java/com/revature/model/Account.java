@@ -20,6 +20,13 @@ public class Account {
 		this.balance = bal;
 	}
 	
+	public int getCliendId() {
+		return cliendId;
+	}
+
+	public void setCliendId(int cliendId) {
+		this.cliendId = cliendId;
+	}
 	public double getBalance() {
 		return balance;
 	}
@@ -39,12 +46,10 @@ public class Account {
 		this.accType = accType;
 	}
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(accId, accType, balance, cliendId);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -55,16 +60,19 @@ public class Account {
 		if (getClass() != obj.getClass())
 			return false;
 		Account other = (Account) obj;
-		return accId == other.accId && Objects.equals(accType, other.accType) && balance == other.balance
+		return accId == other.accId && Objects.equals(accType, other.accType)
+				&& Double.doubleToLongBits(balance) == Double.doubleToLongBits(other.balance)
 				&& cliendId == other.cliendId;
 	}
-
 
 	@Override
 	public String toString() {
 		return "Account [cliendId=" + cliendId + ", accId=" + accId + ", accType=" + accType + ", balance=" + balance
 				+ "]";
 	}
+
+
+
 
 	
 	
